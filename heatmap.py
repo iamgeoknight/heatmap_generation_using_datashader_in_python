@@ -1,16 +1,11 @@
 import pandas as pd
-import numpy as np
 from datashader.tiles import render_tiles
 import geopandas as gpd
 import datashader as ds, pandas as pd, colorcet
 import datashader.transfer_functions as tf
-from datashader.colors import viridis
 from PIL import ImageDraw
 
-import holoviews as hv, pandas as pd, colorcet as cc
-from holoviews.element.tiles import EsriImagery
-from holoviews.operation.datashader import datashade
-hv.extension('bokeh')
+
 
 if __name__ == "__main__":
 
