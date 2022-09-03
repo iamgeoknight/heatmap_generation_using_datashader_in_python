@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>OpenLayers zoom in and zoom out by box selection</title>
+        <script src="dependencies/jsts.js"></script>
+        <script src="dependencies/ol.js"></script>
+        <link rel="stylesheet" href="dependencies/ol.css">
+
+        <style>
+            .ol-dragzoom {
+                background-color: rgba(255,255,255,0.4);
+                border-color: rgb(0, 0, 0);
+                border-width: 2;
+            }
+
+            html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            }
+        </style>
+    </head>
+    <body>     
+        <div id = "map">
+            <div id = "popup"></div>  
+        </div>
+    </body>
+    <script>
+        //Define Map
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                }),
+                new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url:
+                        '/tiles/{z}/{x}/{y}.png',
+                    }),
+                    minZoom: 1,
+                    // maxZoom: 10
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([-0.1275, 51.507222]),
+                zoom: 5
+            })
+        });   
+
+    </script>
+</html>
