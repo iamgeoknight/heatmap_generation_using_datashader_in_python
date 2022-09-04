@@ -10,4 +10,4 @@ And we will also install pygeos library which is used to speed up the vectorized
 ```
 ![Generate Heatmap using Datashader in Python and serve the heatmap tiles in OpenLayers map](Heatmap%20generation%20using%20Datashader%20in%20Python.gif)
 ## For tutorial post, click on following link<br/>
-[Generate Heatmap using Datashader in Python and serve the heatmap tiles in OpenLayers map](https://spatial-dev.guru/2022/09/03/rasterize-vector-data-using-geopandas-and-geocube/)
+[Generate Heatmap using Datashader in Python and serve the heatmap tiles in OpenLayers map](https://spatial-dev.guru/2022/09/04/generate-heatmap-using-datashader-in-python-and-serve-the-heatmap-tiles-in-openlayers-map/)
