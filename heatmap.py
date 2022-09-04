@@ -6,9 +6,7 @@ import datashader.transfer_functions as tf
 from PIL import ImageDraw
 
 
-
-if __name__ == "__main__":
-
+def read_uk_accidents():
     # Read UK Accidents Point csvs
     uk_accidents_1 = pd.read_csv('csvs/uk_accidents_2005_to_2007.tar.xz', low_memory=False)
     uk_accidents_2 = pd.read_csv('csvs/uk_accidents_2009_to_2011.tar.xz', low_memory=False)
@@ -35,40 +33,46 @@ if __name__ == "__main__":
     uk_accidents['y'] = uk_accidents.geometry.y
 
     df = uk_accidents[['x', 'y']]
-    
 
-    map_extent = tuple(uk_accidents.total_bounds)
+    return [df, tuple(uk_accidents.total_bounds)]
 
-    def load_data_func(x_range, y_range):
+def load_data_func(x_range, y_range):
         global df
         return df
 
-    def rasterize_func(df, x_range, y_range, height, width):
-        # aggregate
-        cvs = ds.Canvas(x_range=x_range, y_range=y_range, plot_height=height, plot_width=width)
-        agg = cvs.points(df, 'x', 'y')
-        return agg
+def rasterize_func(df, x_range, y_range, height, width):
+    # aggregate
+    cvs = ds.Canvas(x_range=x_range, y_range=y_range, plot_height=height, plot_width=width)
+    agg = cvs.points(df, 'x', 'y')
+    return agg
 
 
-    def shader_func(agg, span=None):
-        # shader func
-        img = tf.shade(agg, cmap=colorcet.fire, how='log')
-        img = tf.spread(img, px=1, shape='circle', how='add', mask=None, name=None)        
-        img = tf.set_background(img, None)
-        return img
+def shader_func(agg, span=None):
+    # shader func
+    img = tf.shade(agg, cmap=colorcet.fire, how='log')
+    img = tf.spread(img, px=1, shape='circle', how='add', mask=None, name=None)        
+    img = tf.set_background(img, None)
+    return img
 
 
 
-    def post_render_func(img, **kwargs):
-        # Create tiles
-        draw = ImageDraw.Draw(img)
-        draw.text((5, 5), '', fill='rgb(255, 255, 255)')
-        return img
+def post_render_func(img, **kwargs):
+    # Create tiles
+    draw = ImageDraw.Draw(img)
+    draw.text((5, 5), '', fill='rgb(255, 255, 255)')
+    return img
+
+
+
+if __name__ == "__main__":
+    global df
+    
+    df, map_extent = read_uk_accidents()
 
     render_tiles(map_extent,
-        levels=range(11),
-        output_path='tiles',
-        load_data_func=load_data_func,
-        rasterize_func=rasterize_func,
-        shader_func=shader_func,
-        post_render_func=post_render_func)
+    levels=range(11),
+    output_path='tiles',
+    load_data_func=load_data_func,
+    rasterize_func=rasterize_func,
+    shader_func=shader_func,
+    post_render_func=post_render_func)
